@@ -1,0 +1,7 @@
+cd C:\DjangoProjects\KursRevyakoES\costPriceRevyakoES
+
+python manage.py runserver
+
+
+
+admin1 1 = login password for superuser

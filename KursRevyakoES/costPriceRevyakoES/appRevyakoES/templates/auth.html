@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+<div class="registration-cssave">
+    <form method="POST">
+        {% csrf_token %}
+        <h1 class="text-center" style="text-align: center">Форма входа</h1>
+        <div class="form-group">
+            <input class="form-control item" type="text" name="username" id="username"
+                   placeholder="Логин" required value="{{login}}">
+        </div>
+        <div class="form-group">
+            <input class="form-control item" type="password" name="password" id="password"
+                   placeholder="Пароль" required value="{{password}}">
+        </div>
+        {% for message in messages %}
+        <div class="message {{ message.tags }}" style="color:red; text-align: center">
+            {{ message }}
+        </div>
+        {% endfor %}
+        <div class="form-group" style="text-align: center">
+            <button class="btn btn-primary btn-block create-account" type="submit" style="margin-bottom:10px">Вход в аккаунт</button>
+        </div>
+        <div style="text-align: center">
+            <big><a href="registration/">Регистрация</a></big>
+        </div>
+    </form>
+</div>
+</body>
+</html>

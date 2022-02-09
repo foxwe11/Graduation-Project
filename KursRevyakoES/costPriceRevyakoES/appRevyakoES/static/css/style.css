@@ -1,0 +1,236 @@
+.info_save{
+    
+    border:1px solid red;
+    padding: 5px;
+}
+
+
+.calcul_value_bp{
+    
+    font-weight: bold;
+}
+
+
+.source_information{
+    font-size: 15px;
+    display: block;
+    margin-bottom: 5px;
+    
+    
+}
+#variable_costs, #fixed_costs, #r_goods{
+
+font-weight: bold;
+
+}
+
+h2{
+    font-size: 1.9rem;
+    font-weight: bold;
+    line-height: 3rem;
+    margin: 5px;
+    
+}
+
+
+#click_ahref{
+    
+
+margin-bottom: 5px; 
+width: 270px;
+background: #F6953E;
+display: block;    
+text-align: center;
+cursor: pointer;
+padding: 7px 0 9px;
+font-size: 1.7rem;
+font-weight: bold;
+color: white;
+
+}
+
+.view_block_input{
+    
+    border: 0px solid red;
+    padding: 5px;
+    margin-bottom: 10px;
+    background: #EEE;
+}
+
+#load_, #print{
+    
+    background:#B3B3B3;
+}
+
+#name_td_norm,#name_td_work, #name_td_amort, #name_td_other{
+    
+    display: none;
+}
+
+
+#name_td_norm_estimate,#name_td_work_estimate, #name_td_amort_estimate, #name_td_other_estimate{
+    
+    display: none;
+}
+
+
+#forprint{
+background: white;
+display: none; 
+width: 100%;
+    
+}
+
+#button_save{
+    
+display: none;      
+    
+}
+
+
+.name_table{
+    
+    font-size: 2.0rem;
+    font-weight: bold;
+    
+}
+
+table{
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+
+h3{
+    
+    margin: 0;
+    border: none;
+    font-size: 1.9rem;
+    padding: 0;
+
+}
+
+input#value_days,input#value_all, input#price_product, input#name_product, input#price_product, input#variable_product, input#fixed_period, select{
+    
+    margin-top: 10px;
+    
+}
+
+input::placeholder { 
+
+font-size: 1.5rem;
+
+}
+.param {
+    
+/*padding:5px 0 5px;*/
+border-bottom: 2px solid white;
+/*margin: 5px 0;*/
+}
+    
+    
+#form_year_number {display:none;}
+input[name*="status_vendor"] {width:270px;} 
+input[name*="status_name"] {width:270px;} 
+input[name*="status_specialization"] {width:270px;} 
+
+input[name*="status_deductions"] {width:270px;} 
+
+input[type="button"] {
+
+cursor:pointer;
+margin-top: 10px;
+
+height: 35px;
+color: white;
+background: #40BCD0;
+border: none;
+font-weight: normal;
+font-size: 1.7rem;
+padding: 0 0 4px;
+
+
+} 
+
+
+input, select {
+ 
+height: 35px;
+margin-bottom: 5px; 
+width: 270px;
+font-size: 1.7rem;  
+        
+}
+
+table tr th{
+    
+    width: 150px;
+}
+
+
+table tr td{
+    
+    width: 150px;
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+
+.total{
+    
+    border: 0px solid black;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+.del{
+    
+border: 0px solid red;
+
+padding: 0 0 10px;
+
+font-size: 3.9rem;
+cursor: pointer;
+
+color: red;
+font-weight: bold;
+
+vertical-align: middle;
+
+border-radius: 50%;
+margin-left: 5px;
+    
+       
+}
+
+.pushy-link{
+	color: white;
+}
+
+
+@media screen and (max-width: 991px) {
+
+
+.del{
+   
+   display: block;
+   padding: 0;
+   margin: 0; 
+    
+}
+
+.param {
+
+	margin-top: 10px;
+} 
+
+
+
+
+}
+
+
+
+
+

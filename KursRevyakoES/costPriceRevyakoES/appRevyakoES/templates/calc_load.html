@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset=UTF-8">
+
+    <title>Калькулятор расчёта себестоимости продукции</title>
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.0.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body class="loaded">
+
+
+<!--Менюшка ---------------------------------------------------------->
+<div class="nav_external">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background: #cdcdcd">
+        <div class="container" style="border:0px solid red">
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right nav_adapt">
+
+
+                    <li class="pushy-link">
+                        <a href="/user/{{user_id}}/calc/" title="Калькулятор расчёта себестоимости продукции"><span
+                                class="title-text ">Калькулятор расчёта себестоимости</span></a>
+                    </li>
+                    <li class="pushy-link">
+                        <a href="/user/{{user_id}}/products/" title="Мои продукты"><span
+                                class="title-text ">Мои продукты</span></a>
+                    </li>
+                    <li class="pushy-link" style="margin-left: 580px">
+                        <a href="/" title="Выйти из аккаунта"><span
+                                class="title-text">Выйти из аккаунта</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Менюшка ---------------------------------------------------------->
+
+
+<section class="bl_1" style="margin-top: 3%">
+
+    <div class="container">
+
+
+        <div class="row" style="border: 0px solid #FF8040;">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 block_zagolovok">
+
+                    <span class="osn">
+                        <span class="osn_1">
+                        </span>
+                        <h1>
+                        Калькулятор расчёта себестоимости продукции
+						</h1>
+                    </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="bl_1">
+    <div class="container">
+        <div class="row" style="border: 0px solid #FF8040;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text_content">
+                <div class="border_kant">
+
+                    <p>С помощью данного онлайн калькулятора можно рассчитать себестоимость единицы любого вида
+                        продукции, учитывая только те затраты которые вы планируете или были осуществлены по факту.
+                        Нормируемые (на единицу) и ненормируемые (за период работы) издержки можно добавлять независимо
+                        от их количества.</p>
+                    <p>На данной странице введя некоторый набор исходных данных по вашему продукту можно получить онлайн
+                        расчет калькуляции его себестоимости с возможностью её вывода на печать или сохранением в
+                        графическом виде.</p>
+                    <p>В чём может помочь данный сервис:</p>
+                    <ul class="decor_ul_ol">
+                        <li>1. Рассчитать себестоимость 1 единицы выпускаемой продукции или услуги независимо от количества
+                            образуемых статей &nbsp;затрат при её производстве/организации
+                        </li>
+                        <li>2. Рассчитать смету затрат на общий выпуск за указанный период</li>
+                        <li>3. Определитель структуру затрат по переменным и постоянным издержкам</li>
+                        <li>4. Определить целесообразность выпуска данного продукта/услуги исходя из рыночной цены на нее и
+                            рассчитанной себестоимости
+                        </li>
+                        <li>5. Рассчитать точку безубыточности данного продукта/услуги. То есть, то минимальное количество
+                            единиц продукции/услуг, которое надо произвести и продать, чтобы ваше производство было на
+                            безубыточном уровне. Количество сверх этого уровня будет определять прибыльность вашего
+                            производства/организации.
+                        </li>
+                    </ul>
+                    <p>Основное условие – корректный ввод &nbsp;данных по каждой статье затрат. Если какую-либо статью
+                        затрат вы не планируете нести, просто игнорируйте её.</p>
+                    <div class="container">
+
+                    </div>
+
+
+                    <h2 style="border: 0px solid red; color: white; padding: 5px 5px 9px; background: #F6953E; margin: 0 0 7px 0;"
+                        id="calc">Форма ввода данных для расчета калькуляции себестоимости единицы продукции</h2>
+
+
+                    <div id="localStorage_">
+                        <form method="POST" action="/user/{{user_id}}/calc/">
+                            {% csrf_token %}
+                            {% for prod in product %}
+                            <div class="view_block_input">
+                                <h3>1 - Выберите денежную единицу расчёта</h3>
+
+                                <select name="currency" id="currency" value="{{prod.currency}}"
+                                        onchange="status_option();">
+
+                                    <option value="BYN">BYN</option>
+                                    <option value="RUB">RUB</option>
+                                    <option value="USD">USD</option>
+
+                                </select>
+                            </div>
+
+
+                            <div class="view_block_input">
+                                <h3>2 - Введите наименование продукта/услуги для которого будет рассчитываться калькуляция</h3>
+                                <input required type="text" id="name_product" name="name_product"
+                                       placeholder="Наименование продукта"
+                                       value="{{prod.product_name}}" onblur="func(this.id,this.value)">
+
+                            </div>
+
+
+                            <div class="view_block_input">
+                                <h3>3 - Введите цену продажи данного продукта/услуги (рыночная цена)</h3>
+                                <span style="display: block; font-size:14px">(необходима для расчёта рентабельности и точки безубыточности продукта/услуги. Для расчёта только себестоимости не требуется и можно пропустить)</span>
+                                <input type="text" id="price_product" name="price_product"
+                                       placeholder="Цена продажи продукта" value="" onblur="func(this.id,this.value)">
+
+                            </div>
+
+
+                            <div class="view_block_input">
+                                <h3>4 - Определите период за который необходимо рассчитать себестомость единицы
+                                    продукции - в днях</h3>
+                                <span style="display: block;font-size:14px">(период за который будут осуществляться затраты - 30 дней (месяц)/90 дней (квартал)/365 дней (год)). Для расчёта только нормируемых (переменных) издержек единицы продукции/услуги значения не имеет и можно опустить)</span>
+
+                                <input required type="text" id="value_days" name="value_days" placeholder="Период"
+                                       value="{{prod.period}}"
+                                       onblur="func(this.id,this.value)">
+
+                            </div>
+
+
+                            <div class="view_block_input">
+
+                                <h3>5 - Введите количество единиц производимой продукции за период</h3>
+                                <input required type="text" id="value_all" name="value_all" placeholder="Объём выпуска продукции (число)"
+                                       value="{{prod.output_volume}}"
+                                       onblur="func(this.id,this.value)">
+
+                            </div>
+
+                            {% endfor%}
+
+                            <div class="view_block_input">
+
+                                <h3>6 - Нормируемые затраты (на 1 единицу продукции)</h3>
+
+                                {% for m in mat %}
+                                <div class='param'>
+                                    <input required type='text' name='material_name[10{{m.id}}]'
+                                           placeholder='Наименование сырья' data-type='inp'
+                                           class='sumItg' onblur='func(this.id,this.value)' value='{{m.material_name}}'
+                                           id='n_10{{m.id}}'>
+                                    <input required type='text' name='count[10{{m.id}}]'
+                                           placeholder='Расход на ед. продукции (число)'
+                                           data-type='inp'
+                                           onblur='func(this.id,this.value)'
+                                           value='{{m.count}}' id='n_10{{m.id}}1'>
+                                    <input required
+                                            type='text' name='cost[10{{m.id}}]'
+                                            placeholder='Цена сырья (число)'
+                                            class='test' data-type='inp' onblur='func(this.id,this.value)'
+                                            value='{{m.cost}}'
+                                            id='n_10{{m.id}}2'>
+                                    <span class='del'>&times;</span>
+                                </div>
+                                {% endfor%}
+
+                                <input type="button" value="Добавить статью затрат" id="form_status_added"
+                                       onclick="added_norm();">
+
+                            </div>
+
+
+                            <div class="view_block_input">
+                                <h3>7 - Трудозатраты</h3>
+
+                                {% for l in lab %}
+                                <div class='param'>
+                                    <input required type='text' name='profession[20{{l.id}}]' placeholder='Профессия'
+                                           data-type='work' class='sumItg' onblur='func(this.id,this.value)'
+                                           value='{{l.profession}}'
+                                           id='n_20{{l.id}}'>
+                                    <input required type='text' name='number_of_people[20{{l.id}}]'
+                                           placeholder='Количество человек (число)' data-type='work'
+                                           onblur='func(this.id,this.value)' value='{{l.number_of_people}}'
+                                           id='n_20{{l.id}}1'>
+                                    <input required type='text' name='salary[20{{l.id}}]'
+                                           placeholder='Ср.месячная з/п (число)' class='test'
+                                           data-type='work' onblur='func(this.id,this.value)' value='{{l.salary}}'
+                                           id='n_20{{l.id}}3'>
+                                    <input required type='text' name='deduction[20{{l.id}}]'
+                                           placeholder='% отч. от з/п в фонды (число)'
+                                           onblur='func(this.id,this.value)' value='{{l.deduction}}' id='n_20{{l.id}}4'>
+                                    <span class='del'>&times;</span>
+                                </div>
+                                {% endfor%}
+
+                                <input type="button" value="Добавить статью затрат" id="form_status_added_work"
+                                       onclick="added_work();">
+                            </div>
+
+
+                            <div class="view_block_input">
+
+                                <h3>8 - Амортизация</h3>
+
+                                {% for a in am %}
+                                <div class='param'>
+                                    <input required type='text' name='equipment_name[30{{a.id}}]'
+                                           placeholder='Наименование оборудования' data-type='amort' class='sumItg'
+                                           onblur='func(this.id,this.value)' value='{{a.id}}' id='n_30{{a.id}}'>
+                                    <input required type='text' name='count_equipment[30{{a.equipment_name}}]'
+                                           placeholder='Количество ед. (число)' data-type='amort'
+                                           onblur='func(this.id,this.value)' value='{{a.count_equipment}}' id='n_30{{a.id}}1'>
+                                    <input required type='text' name='cost[30{{a.id}}]' placeholder='Цена за ед. (число)'
+                                           class='test' data-type='amort' onblur='func(this.id,this.value)' value='{{a.cost}}'
+                                           id='n_30{{a.id}}2'>
+                                    <input required type='text' name='service_life[30{{a.id}}]'
+                                           placeholder='Срок службы - лет (число)'
+                                           onblur='func(this.id,this.value)' value='{{a.service_life}}' id='n_30{{a.id}}3'> <span
+                                        class='del'>&times;</span>
+                                </div>
+                                {% endfor%}
+
+
+                                <input type="button" value="Добавить статью затрат" id="form_status_added_amortization"
+                                       onclick="added_amortization();">
+
+                            </div>
+
+                            <div class="view_block_input">
+
+                                <h3>9 - Ненормируемые затраты (за период) - накладные расходы</h3>
+
+                                {% for i in inv %}
+                                <div class='param'>
+                                    <input required type='text' name='invoice_name[40{{i.id}}]' placeholder='Наименование'
+                                           data-type='other' class='sumItg' onblur='func(this.id,this.value)' value='{{i.invoice_name}}'
+                                           id='n_40{{i.id}}'>
+                                    <input required type='text' name='count[40{{i.id}}]'
+                                           placeholder='Расход на производство (число)' data-type='other'
+                                           onblur='func(this.id,this.value)' value='{{i.count}}' id='n_40{{i.id}}1'>
+                                    <input required type='text' name='cost[40{{i.id}}]' placeholder='Цена (число)'
+                                           class='test' data-type='other' onblur='func(this.id,this.value)' value='{{i.cost}}'
+                                           id='n_40{{i.id}}2'>
+                                    <span class='del'>&times;</span>
+                                </div>
+                                {% endfor%}
+
+                                <input type="button" value="Добавить статью затрат" id="form_status_added_other"
+                                       onclick="added_other();">
+                            </div>
+
+
+                            <span id="click_ahref" onclick="click_ahref();">Рассчитать</span>
+
+                            <input type="submit" value="Сохранить ведённые данные" style="display: none" id="save_data" >
+
+                            <div style="display: none">
+                                <input type="text" id="cost_price" name="cost_price" placeholder="cost_price"
+                                       value="{{person.id}}">
+
+                            </div>
+
+                            <div style="display: none">
+                                <input type="text" id="count_inp" value="20" name="count_inp" placeholder="count">
+
+                                <input type="text" id="materials" name="materials" placeholder="materials"
+                                       value="{{mat1}}">
+                                <input type="text" id="labors" name="labors" placeholder="labors" value="{{lab1}}">
+                                <input type="text" id="amortizations" name="amortizations" placeholder="amortizations" value="{{am1}}">
+                                <input type="text" id="invoices" name="invoices" placeholder="invoices" value="{{inv1}}">
+                            </div>
+
+                        </form>
+                        <div class="info_save">
+
+                            <p>При необходимости вы можете сохранить ведённые данные для последующих пересчётов (ранее
+                                сохранённые будут перезаписаны) нажав кнопку «Сохранить ведённые данные». Вывод данных в
+                                исходную форму осуществятся в разделе мои продукты.</p>
+
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <br>
+
+
+                    <div id="forprint">
+
+                        <span class="name_table">Расчётная калькуляция себестоимости единицы продукции - <span
+                                class="product_view"></span></span>
+                        <span class="source_information">(расчётный период - <span id="source_period"></span> дней, общий выпуск единиц за период - <span
+                                id="source_all"></span>, рыночная цена продажи - <span id="source_price"></span> <span
+                                class="currency_view"></span>)</span>
+                        <table border="1" id="myTable">
+
+                        </table>
+                        <table border="1">
+                            <tbody>
+                            <tr>
+                                <td>Cтатья</td>
+                                <td>Кол-во</td>
+                                <td>Цена,(<span class="currency_view"></span>)</td>
+                                <td>Сумма,(<span class="currency_view"></span>)</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <span id="name_td_norm">Нормируемые материалы</span>
+                        <table id="td_norm" border="1">
+
+
+                        </table>
+                        <span id="name_td_work">Трудозатраты</span>
+                        <table id="td_work" border="1">
+
+
+                        </table>
+
+                        <span id="name_td_amort">Амортизация</span>
+                        <table id="td_amort" border="1">
+
+
+                        </table>
+
+                        <span id="name_td_other">Накладные расходы</span>
+                        <table id="td_other" border="1">
+
+                        </table>
+
+                        <table>
+
+                            <tbody>
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+
+                            <tr class="total">
+
+                                <td colspan="3">Себестоимость 1 ед. продукта</td>
+
+                                <td><span id="parent"></span> <span class="currency_view"></span></td>
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                        <br>
+                        <span>Переменные затраты на 1 ед. <!-- <span class="product_view"></span> --> <span
+                                id="variable_costs"> </span> <span class="currency_view"></span> (доля в себестоимости - <span
+                                id="share_variable"></span>)</span><br>
+                        <span>Постоянные затраты на 1 ед. <!--  <span class="product_view"></span> --> <span
+                                id="fixed_costs"> </span> <span
+                                class="currency_view"></span> (доля в себестоимости - <span
+                                id="share_fixed"></span>)</span>
+
+                        <br>
+                        <br>
+
+                        <span class="name_table">Расчётная смета затрат за анализируемый период - <span
+                                class="period_view"></span> дней</span>
+                        <table border="1" id="myTable_estimate">
+
+                        </table>
+                        <table border="1">
+                            <tbody>
+                            <tr>
+                                <td>Cтатья</td>
+                                <td>Кол-во</td>
+                                <td>Цена,(<span class="currency_view"></span>)</td>
+                                <td>Сумма,(<span class="currency_view"></span>)</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <span id="name_td_norm_estimate">Нормируемые материалы</span>
+                        <table id="td_norm_estimate" border="1">
+                        </table>
+
+                        <span id="name_td_work_estimate">Трудозатраты</span>
+                        <table id="td_work_estimate" border="1">
+                        </table>
+
+                        <span id="name_td_amort_estimate">Амортизация</span>
+                        <table id="td_amort_estimate" border="1">
+                        </table>
+
+                        <span id="name_td_other_estimate">Накладные расходы</span>
+                        <table id="td_other_estimate" border="1">
+                        </table>
+                        <table>
+
+                            <tbody>
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+
+                            </tr>
+
+                            <tr class="total">
+
+                                <td colspan="3">Суммарные затраты за период</td>
+
+                                <td><span id="parent_estimate"></span> <span class="currency_view"></span></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br>
+
+                        <span>Рентабельность продаж <span id="r_goods"></span> % </span><br>
+
+                        <span>Точка безубыточности составляет <span id="break_even"> </span> единиц за <span
+                                class="period_view"></span> дней</span><br>
+
+                        <br>
+
+                        <strong>Расчёт точки безубыточности по заданным параметрам</strong>
+                        <br>
+                        <br>
+                        <span class="currency_view"></span>
+                        <canvas id="speedChart"></canvas>
+                        <span style="text-align: center;display: block;">Количество единиц</span>
+
+                        <div id="button_save">
+                            <input type="button" value="Сохранить рисунком" id="load_" onclick="load_picture();">
+                            <input type="button" value="Распечатать" onclick="onPrint('komplemir.by')" id="print">
+                            <br>
+                        </div>
+                    </div>
+
+
+                    <script type="text/javascript" src="{% static 'js/Chart.bundle.min.js' %}"></script>
+                    <script type="text/javascript" src="{% static 'js/my_js.js' %}"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+</body>
+</html>

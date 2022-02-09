@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+{% load static %}
+{% load tags %}
+{% load mathfilters %}
+<html>
+<head>
+    <meta charset=UTF-8">
+
+    <title>Мои продукты</title>
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/prod_style.css' %}">
+
+
+</head>
+<body class="loaded">
+
+<!--Менюшка ---------------------------------------------------------->
+<div class="nav_external">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background: #cdcdcd">
+        <div class="container" style="border:0px solid red">
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right nav_adapt">
+
+
+                    <li class="pushy-link">
+                        <a href="/user/{{user_id}}/calc/" title="Калькулятор расчёта себестоимости продукции"><span
+                                class="title-text ">Калькулятор расчёта себестоимости</span></a>
+                    </li>
+                    <li class="pushy-link">
+                        <a href="/user/{{user_id}}/products/" title="Мои продукты"><span
+                                class="title-text ">Мои продукты</span></a>
+                    </li>
+                    <li class="pushy-link" style="margin-left: 580px">
+                        <a href="/" title="Выйти из аккаунта"><span
+                                class="title-text">Выйти из аккаунта</span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Менюшка ---------------------------------------------------------->
+<div class="wrapper" style="margin-top: 5%">
+
+    <div class="half">
+        <h1>Мои продукты</h1>
+        {% if product.count > 0 %}
+        {% for prod in product %}
+        <div class="tab">
+            <input id="{{prod}}" type="checkbox" name="tabs">
+            <label for="{{prod}}">{{prod.product_name}}</label>
+
+            <div class="tab-content">
+
+
+
+                <span class="name_table">Расчётная смета затрат за анализируемый период - <span
+                        class="period_view">{{prod.period}}</span> дней, объём выпуска - {{prod.output_volume}} ед.</span>
+                <table border="1"></table>
+
+                <table border="1">
+                    <tbody>
+                    <tr>
+                        <td>Cтатья</td>
+                        <td>Кол-во</td>
+                        <td>Цена,(<span>{{prod.currency}}</span>)</td>
+                        <td>Сумма,(<span>{{prod.currency}}</span>)</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <span>Нормируемые материалы</span>
+                <table border="1">
+                    <tbody>
+
+                    {% for m in mat %}
+                    {% ifequal m.product_id_id prod.id %}
+
+                    <tr>
+                        <td>{{m.material_name}}</td>
+                        <td>{% widthratio m.count 1 prod.output_volume %}</td>
+                        <td>{{m.cost}}</td>
+                        <td>{% widthratio m.total_price 1 prod.output_volume %}</td>
+                    </tr>
+
+                    {% endifequal %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+
+                <span>Трудозатраты</span>
+                <table border="1">
+                    <tbody>
+
+                    {% for l in lab %}
+                    {% ifequal l.product_id_id prod.id %}
+
+                    <tr>
+                        <td>{{l.profession}}</td>
+                        <td>{{l.number_of_people}} (чел.)</td>
+                        <td>{{l.salary}} (ср.мес з/п с отч. - {{l.deduction}} %)</td>
+                        <td>{{l.total_price}}</td>
+                    </tr>
+
+                    {% endifequal %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+
+                <span>Амортизация</span>
+                <table border="1">
+                    <tbody>
+
+                    {% for a in am %}
+                    {% ifequal a.product_id_id prod.id %}
+
+                    <tr>
+                        <td>{{a.equipment_name}}</td>
+                        <td>{{a.count_equipment}} (шт.)</td>
+                        <td>{{a.cost}} (норма аморт. в год - {{a.service_life}} %)</td>
+                        <td>{{a.total_price}}</td>
+                    </tr>
+
+                    {% endifequal %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+
+                <span>Накладные расходы</span>
+                <table border="1">
+                    <tbody>
+
+                    {% for i in inv %}
+                    {% ifequal i.product_id_id prod.id %}
+
+                    <tr>
+                        <td>{{i.invoice_name}}</td>
+                        <td>{{i.count}}</td>
+                        <td>{{i.cost}}</td>
+                        <td>{{i.total_price}}</td>
+                    </tr>
+
+                    {% endifequal %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+
+                <table>
+                    <tbody>
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+                    <tr class="total">
+                        <td colspan="3">Суммарные затраты за период</td>
+                        <td><span id="parent_estimate">{{prod.total_cost}}</span> <span class="currency_view">{{prod.currency}}</span>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <big>
+            <div>
+                <a href="/user/{{user_id}}/load/{{prod.id}}/">Загрузить данные в калькулятор</a>
+                <span>  |  </span>
+                <a href="/user/{{user_id}}/delete/{{prod.id}}/">Удалить</a>
+            </div>
+            <br>
+
+        </big>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+</div>
+
+</body>
+</html>
