@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from appRevyakoES.views import *
+
 urlpatterns = [
     path('', include('appRevyakoES.urls')),
     path('admin/', admin.site.urls),
+    path('api/userlist/', UserAPIList.as_view()),
+    path('api/userdetail/<int:pk>/', UserAPIDetail.as_view()),
+    path('api/productlist/', ProductAPIList.as_view()),
 ]

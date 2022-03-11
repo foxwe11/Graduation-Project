@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'appRevyakoES',
     'mathfilters',
     'django_extensions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

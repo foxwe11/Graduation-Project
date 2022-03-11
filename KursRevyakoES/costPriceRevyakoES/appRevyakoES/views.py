@@ -1,9 +1,15 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
+from rest_framework import generics
+from .serializers import *
+
 from .models import User ,Product, Material_costs, Labor_costs, Amortization_costs, Invoice_costs
 
 # Create your views here.
+
+
+
 def calc(request, id):
     if request.method == "POST":
         us = User.objects.get(id=id)
@@ -199,4 +205,19 @@ def load(request, id, prod_id):
 #         person.age = request.POST.get("age")
 #         person.save()
 #     return HttpResponseRedirect("/")
+
+class UserAPIList(generics.ListCreateAPIView):
+    """Список пользователей"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserAPIDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Редактирование пользователя"""
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class ProductAPIList(generics.ListCreateAPIView):
+    """Список продуктов"""
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 

@@ -1,5 +1,7 @@
 cd C:\DjangoProjects\KursRevyakoES\costPriceRevyakoES
 
+cd C:\GitHubDesctop\Diplom\Graduation-Project\KursRevyakoES\costPriceRevyakoES
+
 python manage.py runserver
 
 

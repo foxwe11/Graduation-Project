@@ -11,12 +11,24 @@ h1 {
   width: 100%;
   padding: 0 1em;
 }
-a{
-  link {color:blue; text-decoration:none}
-  visited {color:blue; text-decoration:none}
-  hover {color:blue; text-decoration:underline}
-  active {color:blue; text-decoration:underline}
+
+a:link {
+  color:blue;
+  text-decoration:none
 }
+a:visited {
+  color:blue;
+  text-decoration:none
+}
+a:hover {
+  color:blue;
+  text-decoration:underline
+}
+a:active {
+  color:blue;
+  text-decoration:underline
+}
+
 /* Acordeon styles */
 .tab {
   position: relative;
