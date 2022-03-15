@@ -11,7 +11,4 @@ urlpatterns = [
     path('user/<int:id>/products/', views.prod),
     path('user/<int:id>/calc/', views.calc),
 
-    # path('products/', views.prod),
-    # path('calc/', views.calc),
-
 ]
