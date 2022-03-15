@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        read_only_fields = ['cost_price']
+        read_only_fields = ['cost_price', 'return_on_sales', 'breakeven_point']
 
 class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,6 +37,18 @@ class InvoiceSerializer(serializers.ModelSerializer):
         model = Invoice_costs
         fields = "__all__"
         read_only_fields = ['total_price']
+
+# class CalculationSerializer(serializers.ModelSerializer):
+#   sale_price = serializers.SerializerMethodField('sale')
+#
+#   def sale(self):
+#       return 1
+#
+#   class Meta:
+#     model = Product
+#
+#     fields = ('id', 'product_name', 'cost_price', 'currency', 'output_volume',
+#               'period', 'sale_price')
 
 # class MaterialSerializer1(serializers.ModelSerializer):
 #     class Meta:

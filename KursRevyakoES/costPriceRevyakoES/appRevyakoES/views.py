@@ -236,12 +236,26 @@ class ProductAPIList(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         prod = Product()
+
+        # prod.product_name = data["product_name"]
+        # prod.currency = data["currency"]
+        # prod.output_volume = data["output_volume"]
+        # prod.period = data["period"]
+        # prod.sale_price = data["sale_price"]
+        # prod.cost_price = prod.price()
+        # prod.return_on_sales = prod.sale()
+        # prod.breakeven_point = prod.breakeven()
+        # user = User.objects.get(id=data["user_id"])
+        # user.product_set.add(prod, bulk=False)
         try:
             prod.product_name = data["product_name"]
             prod.currency = data["currency"]
             prod.output_volume = data["output_volume"]
             prod.period = data["period"]
-            prod.cost_price = 0
+            prod.sale_price = data["sale_price"]
+            prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             user = User.objects.get(id=data["user_id"])
             user.product_set.add(prod, bulk=False)
         except:
@@ -268,12 +282,26 @@ class ProductAPIDetail(APIView):
     def put(self, request, pk, format=None):
         prod = self.get_object(pk)
         data = request.data
+
+        # prod.product_name = data["product_name"]
+        # prod.currency = data["currency"]
+        # prod.output_volume = data["output_volume"]
+        # prod.period = data["period"]
+        # prod.sale_price = data["sale_price"]
+        # prod.cost_price = prod.price()
+        # prod.return_on_sales = prod.sale()
+        # prod.breakeven_point = prod.breakeven()
+        # user = User.objects.get(id=data["user_id"])
+        # prod.user_id = user
         try:
             prod.product_name = data["product_name"]
             prod.currency = data["currency"]
             prod.output_volume = data["output_volume"]
             prod.period = data["period"]
+            prod.sale_price = data["sale_price"]
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             user = User.objects.get(id=data["user_id"])
             prod.user_id = user
         except:
@@ -312,6 +340,8 @@ class MaterialAPIList(APIView):
             prod = Product.objects.get(id=data["product_id"])
             prod.material_costs_set.add(mat, bulk=False)
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -345,6 +375,8 @@ class MaterialAPIDetail(APIView):
             prod = Product.objects.get(id=data["product_id"])
             mat.product_id = prod
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
         except:
             return Response("Не удалось изменить запись")
         mat.save()
@@ -379,10 +411,12 @@ class LaborAPIList(APIView):
             lab.number_of_people = data["number_of_people"]
             lab.salary = data["salary"]
             lab.deduction = data["deduction"]
-            lab.total_price = lab.price()
+            lab.total_price = lab.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
             prod.labor_costs_set.add(lab, bulk=False)
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -417,6 +451,8 @@ class LaborAPIDetail(APIView):
             prod = Product.objects.get(id=data["product_id"])
             lab.product_id = prod
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
         except:
             return Response("Не удалось изменить запись")
         prod.save()
@@ -451,10 +487,12 @@ class AmortizationAPIList(APIView):
             amort.count_equipment = data["count_equipment"]
             amort.cost = data["cost"]
             amort.service_life = data["service_life"]
-            amort.total_price = amort.price()
+            amort.total_price = amort.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
             prod.amortization_costs_set.add(amort, bulk=False)
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -489,6 +527,8 @@ class AmortizationAPIDetail(APIView):
             prod = Product.objects.get(id=data["product_id"])
             amort.product_id = prod
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
         except:
             return Response("Не удалось изменить запись")
         amort.save()
@@ -526,6 +566,8 @@ class InvoiceAPIList(APIView):
             prod = Product.objects.get(id=data["product_id"])
             prod.invoice_costs_set.add(inv, bulk=False)
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -559,6 +601,8 @@ class InvoiceAPIDetail(APIView):
             prod = Product.objects.get(id=data["product_id"])
             inv.product_id = prod
             prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
         except:
             return Response("Не удалось изменить запись")
         inv.save()

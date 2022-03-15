@@ -20,6 +20,9 @@ class Product(models.Model):
     currency = models.CharField(max_length=10, verbose_name="Валюта")
     output_volume = models.IntegerField(verbose_name="Объём выпуска")
     period = models.IntegerField(default=1, verbose_name="Период")
+    sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Цена продажи")
+    return_on_sales = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Рентабельность продаж (%)")
+    breakeven_point = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Точка безубыточности")
 
     @property
     def total_cost(self):
@@ -30,19 +33,42 @@ class Product(models.Model):
         lab = Labor_costs.objects.filter(product_id = self.id)
         am = Amortization_costs.objects.filter(product_id = self.id)
         inv = Invoice_costs.objects.filter(product_id = self.id)
-        price = 0
+        price = 0.0
+        price1 = 0.0
 
         for m in mat:
-            price = price + m.total_price
+            price = price + float(m.total_price)
         for l in lab:
-            price = price + l.total_price
+            price1 = price1 + float(l.total_price)
         for a in am:
-            price = price + a.total_price
+            price1 = price1 + float(a.total_price)
         for i in inv:
-            price = price + i.total_price
+            price1 = price1 + float(i.total_price)
 
-        return price / self.output_volume
+        price2 = price +price1
+        return float (price2) / float (self.output_volume)
 
+    def sale(self):
+        return (float(self.sale_price) - float(self.cost_price))/float(self.sale_price)*100
+
+    def breakeven(self):
+        mat = Material_costs.objects.filter(product_id=self.id)
+        lab = Labor_costs.objects.filter(product_id=self.id)
+        am = Amortization_costs.objects.filter(product_id=self.id)
+        inv = Invoice_costs.objects.filter(product_id=self.id)
+        price = 0.0
+        price1 = 0.0
+
+        for m in mat:
+            price = price + float(m.total_price)
+        for l in lab:
+            price1 = price1 + float(l.total_price)
+        for a in am:
+            price1 = price1 + float(a.total_price)
+        for i in inv:
+            price1 = price1 + float(i.total_price)
+
+        return float(price1) / (float(self.sale_price) - float(price))
 
     def __str__(self):
         return self.product_name
@@ -76,8 +102,8 @@ class Labor_costs(models.Model):
     deduction = models.IntegerField(verbose_name="Отчисления")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Итоговая цена")
 
-    def price(self):
-        product = Product.objects.get(id=self.product_id)
+    def price(self, product_id):
+        product = Product.objects.get(id=product_id)
         return float(self.number_of_people) * (
                     float(self.salary) + float(self.salary) * float(self.deduction) / 100) / 30 * float(product.period)
 
@@ -96,8 +122,8 @@ class Amortization_costs(models.Model):
     service_life = models.IntegerField(verbose_name="Срок эксплуатации")
     total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Итоговая цена")
 
-    def price(self):
-        product = Product.objects.get(id=self.product_id)
+    def price(self, product_id):
+        product = Product.objects.get(id=product_id)
         return float(self.count_equipment)*float(self.cost)*((100/float(self.service_life))/100*float(product.period)/365)
 
     def __str__(self):
