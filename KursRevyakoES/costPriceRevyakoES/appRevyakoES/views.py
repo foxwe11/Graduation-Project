@@ -367,10 +367,12 @@ class MaterialAPIList(APIView):
             mat.cost = data["cost"]
             mat.total_price = mat.price()
             prod = Product.objects.get(id=data["product_id"])
-            prod.material_costs_set.add(mat, bulk=False)
+            # prod.material_costs_set.add(mat, bulk=False)
+            mat.product_id = prod
             prod.cost_price = prod.price()
             prod.return_on_sales = prod.sale()
             prod.breakeven_point = prod.breakeven()
+            mat.save()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -442,10 +444,12 @@ class LaborAPIList(APIView):
             lab.deduction = data["deduction"]
             lab.total_price = lab.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
-            prod.labor_costs_set.add(lab, bulk=False)
+            # prod.labor_costs_set.add(lab, bulk=False)
+            lab.product_id = prod
             prod.cost_price = prod.price()
             prod.return_on_sales = prod.sale()
             prod.breakeven_point = prod.breakeven()
+            lab.save()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -471,12 +475,23 @@ class LaborAPIDetail(APIView):
     def put(self, request, pk, format=None):
         lab = self.get_object(pk)
         data = request.data
+
+        # lab.profession = data["profession"]
+        # lab.number_of_people = data["number_of_people"]
+        # lab.salary = data["salary"]
+        # lab.deduction = data["deduction"]
+        # lab.total_price = lab.price(data["product_id"])
+        # prod = Product.objects.get(id=data["product_id"])
+        # lab.product_id = prod
+        # prod.cost_price = prod.price()
+        # prod.return_on_sales = prod.sale()
+        # prod.breakeven_point = prod.breakeven()
         try:
             lab.profession = data["profession"]
             lab.number_of_people = data["number_of_people"]
             lab.salary = data["salary"]
             lab.deduction = data["deduction"]
-            lab.total_price = lab.price()
+            lab.total_price = lab.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
             lab.product_id = prod
             prod.cost_price = prod.price()
@@ -518,10 +533,12 @@ class AmortizationAPIList(APIView):
             amort.service_life = data["service_life"]
             amort.total_price = amort.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
-            prod.amortization_costs_set.add(amort, bulk=False)
+            # prod.amortization_costs_set.add(amort, bulk=False)
+            amort.product_id = prod
             prod.cost_price = prod.price()
             prod.return_on_sales = prod.sale()
             prod.breakeven_point = prod.breakeven()
+            amort.save()
             prod.save()
         except:
             return Response("Не удалось создать запись")
@@ -552,7 +569,7 @@ class AmortizationAPIDetail(APIView):
             amort.count_equipment = data["count_equipment"]
             amort.cost = data["cost"]
             amort.service_life = data["service_life"]
-            amort.total_price = amort.price()
+            amort.total_price = amort.price(data["product_id"])
             prod = Product.objects.get(id=data["product_id"])
             amort.product_id = prod
             prod.cost_price = prod.price()
@@ -593,10 +610,12 @@ class InvoiceAPIList(APIView):
             inv.cost = data["cost"]
             inv.total_price = inv.price()
             prod = Product.objects.get(id=data["product_id"])
-            prod.invoice_costs_set.add(inv, bulk=False)
+            # prod.invoice_costs_set.add(inv, bulk=False)
+            inv.product_id = prod
             prod.cost_price = prod.price()
             prod.return_on_sales = prod.sale()
             prod.breakeven_point = prod.breakeven()
+            inv.save()
             prod.save()
         except:
             return Response("Не удалось создать запись")

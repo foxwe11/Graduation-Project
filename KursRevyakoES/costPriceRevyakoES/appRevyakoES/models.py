@@ -20,7 +20,7 @@ class Product(models.Model):
     currency = models.CharField(max_length=10, verbose_name="Валюта")
     output_volume = models.IntegerField(verbose_name="Объём выпуска")
     period = models.IntegerField(default=1, verbose_name="Период")
-    sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Цена продажи")
+    sale_price = models.DecimalField(default=1, max_digits=10, decimal_places=2, verbose_name="Цена продажи")
     return_on_sales = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Рентабельность продаж (%)")
     breakeven_point = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Точка безубыточности")
 
