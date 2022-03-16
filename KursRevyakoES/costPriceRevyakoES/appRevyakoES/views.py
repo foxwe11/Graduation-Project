@@ -219,6 +219,24 @@ class UserAPIDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class UserLoginAPI(APIView):
+    """Авторизация"""
+    serializer_class = UserSerializer
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user = User.objects.all()
+        get_user = data["login"]
+        get_password = data["password"]
+
+        for us in user:
+            if get_user == us.login and get_password == us.password:
+                serializer = UserLoginSerializer(us)
+                return Response(serializer.data)
+
+        return Response("Пользователь не найден")
+
+
 # ------------------------------------------------------------------
 class ProductAPIList(APIView):
     """Список продуктов"""
@@ -237,16 +255,6 @@ class ProductAPIList(APIView):
         data = request.data
         prod = Product()
 
-        # prod.product_name = data["product_name"]
-        # prod.currency = data["currency"]
-        # prod.output_volume = data["output_volume"]
-        # prod.period = data["period"]
-        # prod.sale_price = data["sale_price"]
-        # prod.cost_price = prod.price()
-        # prod.return_on_sales = prod.sale()
-        # prod.breakeven_point = prod.breakeven()
-        # user = User.objects.get(id=data["user_id"])
-        # user.product_set.add(prod, bulk=False)
         try:
             prod.product_name = data["product_name"]
             prod.currency = data["currency"]
@@ -272,7 +280,7 @@ class ProductAPIDetail(APIView):
         try:
             return Product.objects.get(pk=pk)
         except Product.DoesNotExist:
-            Response("Error http404")
+            Response(status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request, pk, format=None):
         product = self.get_object(pk)
@@ -282,17 +290,6 @@ class ProductAPIDetail(APIView):
     def put(self, request, pk, format=None):
         prod = self.get_object(pk)
         data = request.data
-
-        # prod.product_name = data["product_name"]
-        # prod.currency = data["currency"]
-        # prod.output_volume = data["output_volume"]
-        # prod.period = data["period"]
-        # prod.sale_price = data["sale_price"]
-        # prod.cost_price = prod.price()
-        # prod.return_on_sales = prod.sale()
-        # prod.breakeven_point = prod.breakeven()
-        # user = User.objects.get(id=data["user_id"])
-        # prod.user_id = user
         try:
             prod.product_name = data["product_name"]
             prod.currency = data["currency"]
@@ -314,6 +311,38 @@ class ProductAPIDetail(APIView):
         prod = self.get_object(pk)
         prod.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class ProductCalculationAPIList(APIView):
+    """Проведение расчётов продукции"""
+    serializer_class = ProductCalculationSerializer
+
+    def get_object(self, pk):
+        try:
+            return Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            Response("Error http404")
+
+    def get(self, request, pk, format=None):
+        product = self.get_object(pk)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
+    def post(self, request, pk, *args, **kwargs):
+        data = request.data
+        prod = Product.objects.get(id = pk)
+        try:
+            prod.output_volume = data["output_volume"]
+            prod.period = data["period"]
+            prod.sale_price = data["sale_price"]
+            prod.cost_price = prod.price()
+            prod.return_on_sales = prod.sale()
+            prod.breakeven_point = prod.breakeven()
+        except:
+            return Response("Не удалось рассчиать")
+        serializer = ProductCalculationSerializer(prod)
+        return Response(serializer.data)
 # ------------------------------------------------------------------
 
 class MaterialAPIList(APIView):

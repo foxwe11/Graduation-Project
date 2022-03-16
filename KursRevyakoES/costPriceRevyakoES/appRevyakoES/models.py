@@ -78,7 +78,8 @@ class Product(models.Model):
 
 
 class Material_costs(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция",
+                                   related_name='materials')
     material_name = models.CharField(max_length=100, verbose_name="Название материала")
     count = models.IntegerField(verbose_name="Количество")
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Стоимость")
@@ -95,7 +96,8 @@ class Material_costs(models.Model):
 
 
 class Labor_costs(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция",
+                                   related_name='labors')
     profession = models.CharField(max_length=100, verbose_name="Профессия")
     number_of_people = models.IntegerField(verbose_name="Количество людей")
     salary = models.IntegerField(verbose_name="Зарплата")
@@ -115,7 +117,8 @@ class Labor_costs(models.Model):
 
 
 class Amortization_costs(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция",
+                                   related_name='amortizations')
     equipment_name = models.CharField(max_length=100, verbose_name="Название оборудования")
     count_equipment = models.IntegerField(verbose_name="Количество")
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Стоимость")
@@ -134,7 +137,8 @@ class Amortization_costs(models.Model):
 
 
 class Invoice_costs(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция")
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукция",
+                                   related_name='invoices')
     invoice_name = models.CharField(max_length=100, verbose_name="Название")
     count = models.IntegerField(verbose_name="Количество")
     cost = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Стоимость")
