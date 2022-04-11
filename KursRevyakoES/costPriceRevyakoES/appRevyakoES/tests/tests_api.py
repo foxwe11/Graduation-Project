@@ -1,7 +1,6 @@
 from rest_framework.test import APITestCase
 from appRevyakoES.serializers import *
 from rest_framework import status
-from django.test import TestCase, Client
 import json
 
 

@@ -1,6 +1,6 @@
 cd C:\DjangoProjects\KursRevyakoES\costPriceRevyakoES
-
 cd C:\GitHubDesctop\Diplom\Graduation-Project\KursRevyakoES\costPriceRevyakoES
+
 
 cd costPriceRevyakoES
 
@@ -8,4 +8,4 @@ python manage.py runserver
 
 
 
-admin1 1 = login password for superuser
+admin1 1 = login and password for superuser
