@@ -12,19 +12,23 @@ class Views():
         if request.method == "POST":
             us = User.objects.get(id=id)
 
+            # При сохранении если есть в бд, то пересоздать продукт
             try:
                 prod = Product.objects.get(product_name=request.POST.get("name_product"))
                 if prod:
                     prod.delete()
             except:
-                pass
+                 pass
+
+
 
             product = Product()
             product.product_name = request.POST.get("name_product")
-            product.cost_price = request.POST.get("cost_price")
             product.currency = request.POST.get("currency")
             product.output_volume = request.POST.get("value_all")
             product.period = request.POST.get("value_days")
+            product.sale_price = request.POST.get("price_product")
+
             us.product_set.add(product, bulk=False)
 
             mas = request.POST.get("materials")
@@ -36,8 +40,9 @@ class Views():
                         mat.material_name = request.POST.get("material_name[{}]".format(i))
                         mat.count = request.POST.get("count[{}]".format(i))
                         mat.cost = request.POST.get("cost[{}]".format(i))
-                        mat.total_price = float(mat.count) * float(mat.cost)
-                        product.material_costs_set.add(mat, bulk=False)
+                        mat.total_price = mat.price()
+                        mat.product_id = product
+                        mat.save()
                     except:
                         continue
 
@@ -51,10 +56,9 @@ class Views():
                         lab.number_of_people = request.POST.get("number_of_people[{}]".format(i))
                         lab.salary = request.POST.get("salary[{}]".format(i))
                         lab.deduction = request.POST.get("deduction[{}]".format(i))
-                        lab.total_price = float(lab.number_of_people) * (
-                                    float(lab.salary) + float(lab.salary) * float(lab.deduction) / 100) / 30 * float(
-                            product.period)
-                        product.labor_costs_set.add(lab, bulk=False)
+                        lab.total_price = lab.price(product.id)
+                        lab.product_id = product
+                        lab.save()
                     except:
                         continue
 
@@ -68,9 +72,9 @@ class Views():
                         am.count_equipment = request.POST.get("count_equipment[{}]".format(i))
                         am.cost = request.POST.get("cost[{}]".format(i))
                         am.service_life = request.POST.get("service_life[{}]".format(i))
-                        am.total_price = float(am.count_equipment) * float(am.cost) * (
-                                    (100 / float(am.service_life)) / 100 * float(product.period) / 365)
-                        product.amortization_costs_set.add(am, bulk=False)
+                        am.total_price = am.price(product.id)
+                        am.product_id = product
+                        am.save()
                     except:
                         continue
 
@@ -83,10 +87,20 @@ class Views():
                         inv.invoice_name = request.POST.get("invoice_name[{}]".format(i))
                         inv.count = request.POST.get("count[{}]".format(i))
                         inv.cost = request.POST.get("cost[{}]".format(i))
-                        inv.total_price = float(inv.count) * float(inv.cost)
-                        product.invoice_costs_set.add(inv, bulk=False)
+                        inv.total_price = inv.price()
+                        inv.product_id = product
+                        inv.save()
                     except:
                         continue
+
+            # Проведение расчётов показателей для продукта
+            product.cost_price = product.price()
+            product.return_on_sales = product.sale()
+            product.breakeven_point = product.breakeven()
+
+            product.save()
+
+            return Views.load(request, id, product.id)
 
         return render(request, "calc.html", {"user_id": id})
 
@@ -96,7 +110,8 @@ class Views():
         lab = Labor_costs.objects.all()
         am = Amortization_costs.objects.all()
         inv = Invoice_costs.objects.all()
-        data = {"product": product, "mat": mat, "lab": lab, "am": am, "inv": inv, "user_id": id}
+        data = {"product": product, "mat": mat, "lab": lab, "am": am, "inv": inv,
+                "user_id": id}
         return render(request, "products.html", data)
 
     def auth(request):
@@ -108,7 +123,6 @@ class Views():
             for us in user:
                 if get_user == us.login and get_password == us.password:
                     return HttpResponseRedirect("/user/{}/calc/".format(us.id))
-                    # return calc(us.id)
 
             data = {"login": get_user, "password": get_password}
             messages.error(request, 'Неверный логин или пароль!')

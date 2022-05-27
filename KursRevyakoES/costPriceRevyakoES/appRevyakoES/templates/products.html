@@ -77,7 +77,12 @@
                 </table>
 
 
+                {% if prod.count_mat > 0 %}
                 <span>Нормируемые материалы</span>
+                {% endif %}
+
+
+
                 <table border="1">
                     <tbody>
 
@@ -98,7 +103,12 @@
                 </table>
 
 
+
+                {% if prod.count_lab > 0 %}
                 <span>Трудозатраты</span>
+                {% endif %}
+
+
                 <table border="1">
                     <tbody>
 
@@ -119,7 +129,11 @@
                 </table>
 
 
+                {% if prod.count_am > 0 %}
                 <span>Амортизация</span>
+                {% endif %}
+
+
                 <table border="1">
                     <tbody>
 
@@ -140,7 +154,11 @@
                 </table>
 
 
+                {% if prod.count_inv > 0 %}
                 <span>Накладные расходы</span>
+                {% endif %}
+
+
                 <table border="1">
                     <tbody>
 
@@ -174,7 +192,9 @@
 
                     <tr class="total">
                         <td colspan="3">Суммарные затраты за период</td>
-                        <td><span id="parent_estimate">{{prod.total_cost}}</span> <span class="currency_view">{{prod.currency}}</span>
+                        <td>
+                            <span id="parent_estimate">{{prod.total_cost}}</span>
+                            <span class="currency_view">{{prod.currency}}</span>
                         </td>
                     </tr>
 

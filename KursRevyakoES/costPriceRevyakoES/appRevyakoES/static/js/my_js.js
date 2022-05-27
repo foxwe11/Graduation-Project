@@ -14,6 +14,7 @@
     var price_valid = (document.getElementById("price_product").value).split(",").join(".");
 
 
+	/*Нормируемые затраты---------------------------------------------------*/
     /* Check for input with a specific attribute */
 
     if($('.sumItg').is('input[data-type=inp]')){
@@ -24,7 +25,6 @@
       document.getElementById("name_td_norm_estimate").style="display: none";
     };
 
-	/*Нормируемые затраты---------------------------------------------------*/
 	var sumItg = 0;
 	var input = document.querySelectorAll("[data-type=inp]");
 	var i = input.length;
@@ -463,7 +463,9 @@ $(document).on("click", ".del", function() {
                 document.getElementById('materials').value = document.getElementById('materials').value + i;
             }
 
-			$("<div class='param'><input required type='text' name='material_name["+ i +"]' placeholder='Наименование сырья' data-type='inp' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> <input required type='text' name='count["+ i +"]' placeholder='Расход на ед. продукции (число)' data-type='inp' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> <input required type='text' name='cost["+ i +"]' placeholder='Цена сырья (число)' class='test' data-type='inp' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'><span class='del'>&times;</span></div> " ).insertBefore("#form_status_added");
+			$("<div class='param'><input autocomplete='off' required type='text' name='material_name["+ i +"]' placeholder='Наименование сырья' data-type='inp' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='count["+ i +"]' placeholder='Расход на ед. продукции (число)' data-type='inp' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'>" +
+				" <input autocomplete='off' min='1' required type='number' name='cost["+ i +"]' placeholder='Цена сырья (число)' class='test' data-type='inp' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'><span class='del'>&times;</span></div> " ).insertBefore("#form_status_added");
 
             document.getElementById("forprint").style="display: none";
             document.getElementById("save_data").style="display: none";
@@ -483,7 +485,10 @@ $(document).on("click", ".del", function() {
                 document.getElementById('labors').value = document.getElementById('labors').value + i;
             }
 
-			$("<div class='param'><input required type='text' name='profession["+ i +"]' placeholder='Профессия' data-type='work' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> <input required type='text' name='number_of_people["+ i +"]' placeholder='Количество человек (число)' data-type='work' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> <input required type='text' name='salary["+ i +"]' placeholder='Ср.месячная з/п (число)' class='test' data-type='work' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'> <input required type='text' name='deduction["+ i +"]' placeholder='% отч. от з/п в фонды (число)' onblur='func(this.id,this.value)' value='' id='n_"+ (i+3) +"'> <span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_work");
+			$("<div class='param'><input autocomplete='off' required type='text' name='profession["+ i +"]' placeholder='Профессия' data-type='work' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='number_of_people["+ i +"]' placeholder='Количество человек (число)' data-type='work' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='salary["+ i +"]' placeholder='Ср.месячная з/п (число)' class='test' data-type='work' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'>" +
+				" <input autocomplete='off' min='0' required type='number' name='deduction["+ i +"]' placeholder='% отч. от з/п в фонды (число)' onblur='func(this.id,this.value)' value='' id='n_"+ (i+3) +"'> <span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_work");
 
             document.getElementById("forprint").style="display: none";
             document.getElementById("save_data").style="display: none";
@@ -504,7 +509,10 @@ $(document).on("click", ".del", function() {
                 document.getElementById('amortizations').value = document.getElementById('amortizations').value + i;
             }
 
-			$("<div class='param'><input required type='text' name='equipment_name["+ i +"]' placeholder='Наименование оборудования' data-type='amort' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> <input required type='text' name='count_equipment["+ i +"]' placeholder='Количество ед. (число)' data-type='amort' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> <input required type='text' name='cost["+ i +"]' placeholder='Цена за ед. (число)' class='test' data-type='amort' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'> <input required type='text' name='service_life["+ i +"]' placeholder='Срок службы - лет (число)' onblur='func(this.id,this.value)' value='' id='n_"+ (i+3) +"'> <span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_amortization");
+			$("<div class='param'><input autocomplete='off' required type='text' name='equipment_name["+ i +"]' placeholder='Наименование оборудования' data-type='amort' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='count_equipment["+ i +"]' placeholder='Количество ед. (число)' data-type='amort' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='cost["+ i +"]' placeholder='Цена за ед. (число)' class='test' data-type='amort' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='service_life["+ i +"]' placeholder='Срок службы - лет (число)' onblur='func(this.id,this.value)' value='' id='n_"+ (i+3) +"'> <span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_amortization");
 
             document.getElementById("forprint").style="display: none";
             document.getElementById("save_data").style="display: none";
@@ -524,7 +532,9 @@ $(document).on("click", ".del", function() {
                 document.getElementById('invoices').value = document.getElementById('invoices').value + i;
             }
 
-			$("<div class='param'><input required type='text' name='invoice_name["+ i +"]' placeholder='Наименование' data-type='other' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> <input required type='text' name='count["+ i +"]' placeholder='Расход на производство (число)' data-type='other' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> <input required type='text' name='cost["+ i +"]' placeholder='Цена (число)' class='test' data-type='other' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'><span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_other");
+			$("<div class='param'><input autocomplete='off' required type='text' name='invoice_name["+ i +"]' placeholder='Наименование' data-type='other' class='sumItg' onblur='func(this.id,this.value)' value='' id='n_"+ i +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='count["+ i +"]' placeholder='Расход на производство (число)' data-type='other' onblur='func(this.id,this.value)' value='' id='n_"+ (i+1) +"'> " +
+				"<input autocomplete='off' min='1' required type='number' name='cost["+ i +"]' placeholder='Цена (число)' class='test' data-type='other' onblur='func(this.id,this.value)' value='' id='n_"+ (i+2) +"'><span class='del'>&times;</span></div> " ).insertBefore("#form_status_added_other");
 
             document.getElementById("forprint").style="display: none";
             document.getElementById("save_data").style="display: none";

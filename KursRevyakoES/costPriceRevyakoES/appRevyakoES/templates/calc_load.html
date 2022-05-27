@@ -114,12 +114,22 @@
                             <div class="view_block_input">
                                 <h3>1 - Выберите денежную единицу расчёта</h3>
 
-                                <select name="currency" id="currency" value="{{prod.currency}}"
-                                        onchange="status_option();">
+                                <select name="currency" id="currency">
 
                                     <option value="BYN">BYN</option>
+
+                                    {% if prod.currency == "RUB" %}
+                                    <option selected="" value="RUB">RUB</option>
+                                    {% else %}
                                     <option value="RUB">RUB</option>
+                                    {% endif %}
+
+                                    {% if prod.currency == "USD" %}
+                                    <option selected="" value="USD">USD</option>
+                                    {% else %}
                                     <option value="USD">USD</option>
+                                    {% endif %}
+
 
                                 </select>
                             </div>
@@ -129,7 +139,7 @@
                                 <h3>2 - Введите наименование продукта/услуги для которого будет рассчитываться калькуляция</h3>
                                 <input required type="text" id="name_product" name="name_product"
                                        placeholder="Наименование продукта"
-                                       value="{{prod.product_name}}" onblur="func(this.id,this.value)">
+                                       value="{{prod.product_name}}" autocomplete="off" onblur="func(this.id,this.value)">
 
                             </div>
 
@@ -137,8 +147,8 @@
                             <div class="view_block_input">
                                 <h3>3 - Введите цену продажи данного продукта/услуги (рыночная цена)</h3>
                                 <span style="display: block; font-size:14px">(необходима для расчёта рентабельности и точки безубыточности продукта/услуги. Для расчёта только себестоимости не требуется и можно пропустить)</span>
-                                <input type="text" id="price_product" name="price_product"
-                                       placeholder="Цена продажи продукта" value="" onblur="func(this.id,this.value)">
+                                <input type="number" id="price_product" name="price_product"
+                                       placeholder="Цена продажи продукта" min="1" value="{{prod.sale_price}}" autocomplete="off" required onblur="func(this.id,this.value)">
 
                             </div>
 
@@ -148,8 +158,8 @@
                                     продукции - в днях</h3>
                                 <span style="display: block;font-size:14px">(период за который будут осуществляться затраты - 30 дней (месяц)/90 дней (квартал)/365 дней (год)). Для расчёта только нормируемых (переменных) издержек единицы продукции/услуги значения не имеет и можно опустить)</span>
 
-                                <input required type="text" id="value_days" name="value_days" placeholder="Период"
-                                       value="{{prod.period}}"
+                                <input required type="number" id="value_days" name="value_days" placeholder="Период"
+                                       value="{{prod.period}}" min="1"
                                        onblur="func(this.id,this.value)">
 
                             </div>
@@ -158,8 +168,8 @@
                             <div class="view_block_input">
 
                                 <h3>5 - Введите количество единиц производимой продукции за период</h3>
-                                <input required type="text" id="value_all" name="value_all" placeholder="Объём выпуска продукции (число)"
-                                       value="{{prod.output_volume}}"
+                                <input required type="number" id="value_all" name="value_all" placeholder="Объём выпуска продукции (число)"
+                                       value="{{prod.output_volume}}" min="1"
                                        onblur="func(this.id,this.value)">
 
                             </div>
@@ -175,17 +185,17 @@
                                     <input required type='text' name='material_name[10{{m.id}}]'
                                            placeholder='Наименование сырья' data-type='inp'
                                            class='sumItg' onblur='func(this.id,this.value)' value='{{m.material_name}}'
-                                           id='n_10{{m.id}}'>
-                                    <input required type='text' name='count[10{{m.id}}]'
+                                           id='n_10{{m.id}}' autocomplete="off">
+                                    <input required type='number' name='count[10{{m.id}}]'
                                            placeholder='Расход на ед. продукции (число)'
-                                           data-type='inp'
+                                           data-type='inp' min="1"
                                            onblur='func(this.id,this.value)'
-                                           value='{{m.count}}' id='n_10{{m.id}}1'>
+                                           value='{{m.count}}' id='n_10{{m.id}}1' autocomplete="off">
                                     <input required
-                                            type='text' name='cost[10{{m.id}}]'
+                                            type='number' name='cost[10{{m.id}}]'
                                             placeholder='Цена сырья (число)'
                                             class='test' data-type='inp' onblur='func(this.id,this.value)'
-                                            value='{{m.cost}}'
+                                            value='{{m.cost}}' autocomplete="off" min="1"
                                             id='n_10{{m.id}}2'>
                                     <span class='del'>&times;</span>
                                 </div>
@@ -204,18 +214,18 @@
                                 <div class='param'>
                                     <input required type='text' name='profession[20{{l.id}}]' placeholder='Профессия'
                                            data-type='work' class='sumItg' onblur='func(this.id,this.value)'
-                                           value='{{l.profession}}'
+                                           value='{{l.profession}}' autocomplete="off"
                                            id='n_20{{l.id}}'>
-                                    <input required type='text' name='number_of_people[20{{l.id}}]'
-                                           placeholder='Количество человек (число)' data-type='work'
+                                    <input required type='number' name='number_of_people[20{{l.id}}]'
+                                           placeholder='Количество человек (число)' data-type='work' min="1"
                                            onblur='func(this.id,this.value)' value='{{l.number_of_people}}'
-                                           id='n_20{{l.id}}1'>
-                                    <input required type='text' name='salary[20{{l.id}}]'
+                                           id='n_20{{l.id}}1' autocomplete="off">
+                                    <input required type='number' name='salary[20{{l.id}}]' min="1"
                                            placeholder='Ср.месячная з/п (число)' class='test'
                                            data-type='work' onblur='func(this.id,this.value)' value='{{l.salary}}'
-                                           id='n_20{{l.id}}3'>
-                                    <input required type='text' name='deduction[20{{l.id}}]'
-                                           placeholder='% отч. от з/п в фонды (число)'
+                                           id='n_20{{l.id}}3' autocomplete="off">
+                                    <input required type='number' name='deduction[20{{l.id}}]' min="0"
+                                           placeholder='% отч. от з/п в фонды (число)' autocomplete="off"
                                            onblur='func(this.id,this.value)' value='{{l.deduction}}' id='n_20{{l.id}}4'>
                                     <span class='del'>&times;</span>
                                 </div>
@@ -232,17 +242,17 @@
 
                                 {% for a in am %}
                                 <div class='param'>
-                                    <input required type='text' name='equipment_name[30{{a.id}}]'
+                                    <input required type='text' name='equipment_name[30{{a.id}}]' autocomplete="off"
                                            placeholder='Наименование оборудования' data-type='amort' class='sumItg'
-                                           onblur='func(this.id,this.value)' value='{{a.id}}' id='n_30{{a.id}}'>
-                                    <input required type='text' name='count_equipment[30{{a.equipment_name}}]'
-                                           placeholder='Количество ед. (число)' data-type='amort'
+                                           onblur='func(this.id,this.value)' value='{{a.equipment_name}}' id='n_30{{a.id}}'>
+                                    <input required type='number' name='count_equipment[30{{a.id}}]' autocomplete="off"
+                                           placeholder='Количество ед. (число)' data-type='amort' min="1"
                                            onblur='func(this.id,this.value)' value='{{a.count_equipment}}' id='n_30{{a.id}}1'>
-                                    <input required type='text' name='cost[30{{a.id}}]' placeholder='Цена за ед. (число)'
+                                    <input required type='number' name='cost[30{{a.id}}]' placeholder='Цена за ед. (число)'
                                            class='test' data-type='amort' onblur='func(this.id,this.value)' value='{{a.cost}}'
-                                           id='n_30{{a.id}}2'>
-                                    <input required type='text' name='service_life[30{{a.id}}]'
-                                           placeholder='Срок службы - лет (число)'
+                                           id='n_30{{a.id}}2' autocomplete="off" min="1">
+                                    <input required type='number' name='service_life[30{{a.id}}]'
+                                           placeholder='Срок службы - лет (число)' autocomplete="off" min="1"
                                            onblur='func(this.id,this.value)' value='{{a.service_life}}' id='n_30{{a.id}}3'> <span
                                         class='del'>&times;</span>
                                 </div>
@@ -262,13 +272,13 @@
                                 <div class='param'>
                                     <input required type='text' name='invoice_name[40{{i.id}}]' placeholder='Наименование'
                                            data-type='other' class='sumItg' onblur='func(this.id,this.value)' value='{{i.invoice_name}}'
-                                           id='n_40{{i.id}}'>
-                                    <input required type='text' name='count[40{{i.id}}]'
-                                           placeholder='Расход на производство (число)' data-type='other'
+                                           id='n_40{{i.id}}' autocomplete="off">
+                                    <input required type='number' name='count[40{{i.id}}]' autocomplete="off"
+                                           placeholder='Расход на производство (число)' data-type='other' min="1"
                                            onblur='func(this.id,this.value)' value='{{i.count}}' id='n_40{{i.id}}1'>
-                                    <input required type='text' name='cost[40{{i.id}}]' placeholder='Цена (число)'
+                                    <input required type='number' name='cost[40{{i.id}}]' placeholder='Цена (число)'
                                            class='test' data-type='other' onblur='func(this.id,this.value)' value='{{i.cost}}'
-                                           id='n_40{{i.id}}2'>
+                                           id='n_40{{i.id}}2' autocomplete="off" min="1">
                                     <span class='del'>&times;</span>
                                 </div>
                                 {% endfor%}

@@ -13,11 +13,11 @@
         <h1 class="text-center" style="text-align: center">Форма входа</h1>
         <div class="form-group">
             <input class="form-control item" type="text" name="username" id="username"
-                   placeholder="Логин" required value="{{login}}">
+                   placeholder="Логин" autocomplete="off" required value="{{login}}">
         </div>
         <div class="form-group">
             <input class="form-control item" type="password" name="password" id="password"
-                   placeholder="Пароль" required value="{{password}}">
+                   placeholder="Пароль" autocomplete="off" required value="{{password}}">
         </div>
         {% for message in messages %}
         <div class="message {{ message.tags }}" style="color:red; text-align: center">

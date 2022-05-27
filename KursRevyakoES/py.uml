@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#C:/GitHubDesctop/Diplom/Graduation-Project/KursRevyakoES/costPriceRevyakoES/appRevyakoES/models.py</OriginalElement>
+  <nodes>
+    <node x="-321.42227204783256" y="3.5">appRevyakoES.models.Product</node>
+    <node x="354.0" y="184.0">django.db.models.base.Model</node>
+    <node x="-321.42227204783256" y="662.6405082212257">appRevyakoES.models.Material_costs</node>
+    <node x="-321.42227204783256" y="399.0702541106129">appRevyakoES.models.Amortization_costs</node>
+    <node x="-321.42227204783256" y="898.0">appRevyakoES.models.Labor_costs</node>
+    <node x="597.0" y="0.0">appRevyakoES.views.Views</node>
+    <node x="-321.42227204783256" y="1183.0485799701046">appRevyakoES.models.User</node>
+    <node x="1940.0582959641263" y="637.4360986547085">typing.Hashable</node>
+    <node x="1510.4222720478326" y="690.4064094634298">django.db.models.base.ModelBase</node>
+    <node x="1510.4222720478326" y="21.957772795216748">object</node>
+    <node x="-321.42227204783256" y="1326.5500747384156">appRevyakoES.models.Invoice_costs</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="appRevyakoES.models.Invoice_costs" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="133.5" y="-0.0" />
+      <point x="188.03736920777283" y="1420.5500747384156" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.views.Views" target="object" relationship="REALIZATION">
+      <point x="103.5" y="-0.0" />
+      <point x="1278.7111360239164" y="82.0" />
+      <point x="1278.7111360239164" y="302.9577727952167" />
+      <point x="-134.0" y="-0.0" />
+    </edge>
+    <edge source="django.db.models.base.Model" target="object" relationship="REALIZATION">
+      <point x="346.5" y="-473.0" />
+      <point x="1278.7111360239164" y="421.0" />
+      <point x="1278.7111360239164" y="302.9577727952167" />
+      <point x="-134.0" y="-0.0" />
+    </edge>
+    <edge source="object" target="typing.Hashable" relationship="INTERFACE">
+      <point x="134.0" y="-0.0" />
+      <point x="1858.1083707025418" y="302.9577727952167" />
+      <point x="1858.1083707025418" y="664.4360986547085" />
+      <point x="-69.5" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.models.Amortization_costs" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="152.0" y="-0.0" />
+      <point x="188.03736920777283" y="504.0702541106129" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+    <edge source="django.db.models.base.Model" target="typing.Hashable" relationship="INTERFACE">
+      <point x="346.5" y="-0.0" />
+      <point x="1278.7111360239164" y="894.0" />
+      <point x="1278.7111360239164" y="664.4360986547085" />
+      <point x="-69.5" y="-0.0" />
+    </edge>
+    <edge source="django.db.models.base.Model" target="django.db.models.base.ModelBase" relationship="INSTANCEOF">
+      <point x="346.5" y="473.0" />
+      <point x="1278.7111360239164" y="1367.0" />
+      <point x="1278.7111360239164" y="1147.4064094634298" />
+      <point x="-129.0" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.models.Material_costs" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="136.0" y="-0.0" />
+      <point x="188.03736920777283" y="756.6405082212257" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.models.User" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="106.0" y="-0.0" />
+      <point x="188.03736920777283" y="1233.0485799701046" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.models.Product" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="116.5" y="-0.0" />
+      <point x="188.03736920777283" y="174.5" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+    <edge source="appRevyakoES.models.Labor_costs" target="django.db.models.base.Model" relationship="REALIZATION">
+      <point x="129.0" y="-0.0" />
+      <point x="188.03736920777283" y="1003.0" />
+      <point x="188.03736920777283" y="894.0" />
+      <point x="-346.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.3972684085510689" showDependencies="false" x="779.0" y="832.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+

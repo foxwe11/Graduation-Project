@@ -125,7 +125,7 @@
                             <div class="view_block_input">
                                 <h3>2 - Введите наименование продукта/услуги для которого будет рассчитываться калькуляция</h3>
                                 <input type="text" id="name_product" name="name_product" placeholder="Наименование продукта"
-                                       value="Продукт/услуга" onblur="func(this.id,this.value)" required>
+                                       value="" autocomplete="off" onblur="func(this.id,this.value)" required>
 
                             </div>
 
@@ -133,8 +133,8 @@
                             <div class="view_block_input">
                                 <h3>3 - Введите цену продажи данного продукта/услуги (рыночная цена)</h3>
                                 <span style="display: block; font-size:14px">(необходима для расчёта рентабельности и точки безубыточности продукта/услуги. Для расчёта только себестоимости не требуется и можно пропустить)</span>
-                                <input type="text" id="price_product" name="price_product"
-                                       placeholder="Цена продажи продукта" value="" onblur="func(this.id,this.value)">
+                                <input type="number" id="price_product" name="price_product"
+                                       placeholder="Цена продажи продукта" value="1" autocomplete="off" required min="1" onblur="func(this.id,this.value)">
 
                             </div>
 
@@ -144,8 +144,8 @@
                                     продукции - в днях</h3>
                                 <span style="display: block;font-size:14px">(период за который будут осуществляться затраты - 30 дней (месяц)/90 дней (квартал)/365 дней (год)). Для расчёта только нормируемых (переменных) издержек единицы продукции/услуги значения не имеет и можно опустить)</span>
 
-                                <input type="text" id="value_days" name="value_days" placeholder="Период" value="30"
-                                       onblur="func(this.id,this.value)" required>
+                                <input type="number" id="value_days" name="value_days" placeholder="Период" value="30" min="1"
+                                       onblur="func(this.id,this.value)" autocomplete="off" required>
 
                             </div>
 
@@ -153,8 +153,8 @@
                             <div class="view_block_input">
 
                                 <h3>5 - Введите количество единиц производимой продукции за период</h3>
-                                <input type="text" id="value_all" name="value_all" placeholder="Объём выпуска продукции (число)" value="1"
-                                       onblur="func(this.id,this.value)" required>
+                                <input type="number" id="value_all" name="value_all" placeholder="Объём выпуска продукции (число)" value="1"
+                                       min="1" onblur="func(this.id,this.value)" autocomplete="off" required>
 
                             </div>
 

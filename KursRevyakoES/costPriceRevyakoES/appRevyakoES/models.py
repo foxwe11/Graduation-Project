@@ -16,13 +16,13 @@ class User(models.Model):
 class Product(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     product_name = models.CharField(max_length=100, verbose_name="Название продукции")
-    cost_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Себестоимость")
+    cost_price = models.DecimalField(default=1, max_digits=10, decimal_places=2, verbose_name="Себестоимость")
     currency = models.CharField(max_length=10, verbose_name="Валюта")
     output_volume = models.IntegerField(verbose_name="Объём выпуска")
-    period = models.IntegerField(default=1, verbose_name="Период")
-    sale_price = models.DecimalField(default=1, max_digits=10, decimal_places=2, verbose_name="Цена продажи")
-    return_on_sales = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Рентабельность продаж (%)")
-    breakeven_point = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name="Точка безубыточности")
+    period = models.IntegerField(verbose_name="Период")
+    sale_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, verbose_name="Цена продажи")
+    return_on_sales = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, verbose_name="Рентабельность продаж (%)")
+    breakeven_point = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2, verbose_name="Точка безубыточности")
 
     @property
     def total_cost(self):
@@ -69,6 +69,18 @@ class Product(models.Model):
             price1 = price1 + float(i.total_price)
 
         return float(price1) / (float(self.sale_price) - float(price))
+
+    def count_mat(self):
+        return len(Material_costs.objects.filter(product_id=self.id))
+
+    def count_lab(self):
+        return len(Labor_costs.objects.filter(product_id=self.id))
+
+    def count_am(self):
+        return len(Amortization_costs.objects.filter(product_id=self.id))
+
+    def count_inv(self):
+        return len(Invoice_costs.objects.filter(product_id=self.id))
 
     def __str__(self):
         return self.product_name
